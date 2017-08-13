@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JS Drum Kit</title>
+  <title>JS Animal Zoo</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,83 +11,96 @@
   <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
-      <span class="sound">clap</span>
+      <span class="sound">Bird Chirp</span>
     </div>
     <div data-key="83" class="key">
       <kbd>S</kbd>
-      <span class="sound">hihat</span>
+      <span class="sound">Cat Meow</span>
     </div>
     <div data-key="68" class="key">
       <kbd>D</kbd>
-      <span class="sound">kick</span>
+      <span class="sound">Chicken</span>
     </div>
     <div data-key="70" class="key">
       <kbd>F</kbd>
-      <span class="sound">openhat</span>
+      <span class="sound">Dog Bark</span>
     </div>
     <div data-key="71" class="key">
       <kbd>G</kbd>
-      <span class="sound">boom</span>
+      <span class="sound">Elephant</span>
     </div>
     <div data-key="72" class="key">
       <kbd>H</kbd>
-      <span class="sound">ride</span>
+      <span class="sound">Frogs</span>
     </div>
     <div data-key="74" class="key">
       <kbd>J</kbd>
-      <span class="sound">snare</span>
+      <span class="sound">Horse</span>
     </div>
     <div data-key="75" class="key">
       <kbd>K</kbd>
-      <span class="sound">tom</span>
+      <span class="sound">Monkey</span>
     </div>
     <div data-key="76" class="key">
       <kbd>L</kbd>
-      <span class="sound">tink</span>
+      <span class="sound">Sheep</span>
     </div>
   </div>
 
-  <audio data-key="65" src="sounds/clap.wav"></audio>
-  <audio data-key="83" src="sounds/hihat.wav"></audio>
-  <audio data-key="68" src="sounds/kick.wav"></audio>
-  <audio data-key="70" src="sounds/openhat.wav"></audio>
-  <audio data-key="71" src="sounds/boom.wav"></audio>
-  <audio data-key="72" src="sounds/ride.wav"></audio>
-  <audio data-key="74" src="sounds/snare.wav"></audio>
-  <audio data-key="75" src="sounds/tom.wav"></audio>
-  <audio data-key="76" src="sounds/tink.wav"></audio>
+  <audio data-key="65" src="zoo_sounds/bird_chirp.wav"></audio>
+  <audio data-key="83" src="zoo_sounds/cat_meow.wav"></audio>
+  <audio data-key="68" src="zoo_sounds/chicken.wav"></audio>
+  <audio data-key="70" src="zoo_sounds/dog_bark.wav"></audio>
+  <audio data-key="71" src="zoo_sounds/elephant.wav"></audio>
+  <audio data-key="72" src="zoo_sounds/frogs.wav"></audio>
+  <audio data-key="74" src="zoo_sounds/horse.wav"></audio>
+  <audio data-key="75" src="zoo_sounds/monkey.wav"></audio>
+  <audio data-key="76" src="zoo_sounds/sheep.wav"></audio>
 
 <script>
-  window.addEventListener('keydown', function(e) {
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
+  
+  function playSound(e) {
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-    if(!audio) return //stops the function from running!
-    audio.currentTime = 0 //Rewinds to the start
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!audio) return;
+  
+    key.classList.add('playing');
+    audio.currentTime = 0;
     audio.play();
-  });
-
-
-  //
-  // function removeTransition(e) {
-  //   if (e.propertyName !== 'transform') return;
-  //   e.target.classList.remove('playing');
-  // }
-  //
-  // function playSound(e) {
-  //   const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-  //   const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
-  //   if (!audio) return;
-  //
-  //   key.classList.add('playing');
-  //   audio.currentTime = 0;
-  //   audio.play();
-  // }
-  //
-  // const keys = Array.from(document.querySelectorAll('.key'));
-  // keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-  // window.addEventListener('keydown', playSound);
+  }
+  
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
 </script>
 
 
 </body>
 </html>
+
+<!-- <script>
+  window.addEventListener('keydown', function(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    console.log(audio);
+    console.log(key);
+
+    if (!audio) return; // Stops the function all together from playing
+    audio.currentTime = 0 // rewind to the start
+    audio.play(); 
+
+    key.classList.toggle('playing'); // Adds the class of 'playing' to the 'key' element. Also option to remove or toggle
+  });
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return // Skip it if it's not transform 
+    console.log(e.propertyName);
+  }
+
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); // each key get an event listender added of 'transitionend'. Once the transition ends, the function of removeTransition is called
+</script> -->
